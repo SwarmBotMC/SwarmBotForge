@@ -19,6 +19,8 @@ val player: EntityPlayerSP by lazy { Minecraft.getMinecraft().player }
 
 val COMMAND_REGEX = """^#(\S+)\s?(.*)""".toRegex()
 
+var sel = false;
+
 object EventHandler {
     @SubscribeEvent
     fun chatEvent(event: ClientChatEvent) {
@@ -26,6 +28,10 @@ object EventHandler {
 
         val match = COMMAND_REGEX.find(event.message) ?: return
         val name = match.groups[1]?.value ?: return;
+
+        // cancel this because we are executing a command
+        event.isCanceled = true;
+
         val args = match.groups[2]?.value?.split(" ") ?: emptyList();
 
         when (name) {
@@ -37,11 +43,15 @@ object EventHandler {
                 val from = Block2D(start.x, start.z)
                 val to = Block2D(end.x, end.z)
 
-                player.sendChatMessage("mining! $from $to")
+                player.sendMessage(TextComponentString("mining! $from $to"))
 
                 GlobalScope.launch {
                     sendMine(Mine(Selection2D(from, to)))
                 }
+            }
+            "sel" -> {
+                player.sendMessage(TextComponentString("toggled sel"))
+                sel = !sel;
             }
             else -> {
                 player.sendMessage(TextComponentString("invalid command"))
@@ -51,19 +61,23 @@ object EventHandler {
 
     @SubscribeEvent
     fun leftClick(event: PlayerInteractEvent.LeftClickBlock) {
-        val tool = event.itemStack.item as? ItemAxe ?: return;
-        if (pos1 != event.pos) {
-            pos1 = event.pos
-            player.sendMessage(TextComponentString("pos1 $pos1"))
+        if(!sel) return;
+        event.isCanceled = true;
+        val pos = event.pos;
+        if (pos1 != pos) {
+            player.sendMessage(TextComponentString("pos1 (${pos.x}, ${pos.z}"))
+            pos1 = pos
         }
     }
 
     @SubscribeEvent
     fun rightClick(event: PlayerInteractEvent.RightClickBlock) {
-        val tool = event.itemStack.item as? ItemAxe ?: return;
-        if (pos2 != event.pos) {
-            pos2 = event.pos
-            player.sendMessage(TextComponentString("pos2 $pos2"))
+        if(!sel) return;
+        event.isCanceled = true;
+        val pos = event.pos;
+        if (pos2 != pos) {
+            player.sendMessage(TextComponentString("pos2 (${pos.x}, ${pos.z}"))
+            pos2 = pos
         }
     }
 }
