@@ -34,9 +34,9 @@ class MineBot {
     fun init(event: FMLInitializationEvent) {
         MinecraftForge.EVENT_BUS.register(EventHandler)
 
-        runBlocking {
-            yes()
-        }
+//        runBlocking {
+//            sendMine()
+//        }
     }
 
     /**

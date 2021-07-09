@@ -27,10 +27,10 @@ data class Selection2D(val from: Block2D, val to: Block2D)
 @Serializable
 data class Mine(val sel: Selection2D)
 
-suspend fun yes() {
+suspend fun sendMine(mine: Mine) {
     val response: HttpResponse = client.post("http://127.0.0.1:8080/mine"){
         contentType(ContentType.Application.Json)
-        body = Mine(Selection2D(from=Block2D(0,0), to= Block2D(12,34)))
+        body = mine
     }
 
 }

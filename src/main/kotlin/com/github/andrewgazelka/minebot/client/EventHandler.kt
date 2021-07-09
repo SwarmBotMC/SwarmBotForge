@@ -1,12 +1,63 @@
 package com.github.andrewgazelka.minebot.client
 
 
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import net.minecraft.client.Minecraft
+import net.minecraft.client.entity.EntityPlayerSP
+import net.minecraft.item.ItemAxe
+import net.minecraft.util.math.BlockPos
 import net.minecraftforge.client.event.ClientChatEvent
+import net.minecraftforge.event.entity.player.PlayerInteractEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
+
+var pos1: BlockPos? = null
+var pos2: BlockPos? = null
+
+val player: EntityPlayerSP by lazy { Minecraft.getMinecraft().player }
+
+val COMMAND_REGEX = """^#(\S+)\s?(.*)""".toRegex()
 
 object EventHandler {
     @SubscribeEvent
-    fun pickupItem(event: ClientChatEvent) {
-        println(event.message)
+    fun chatEvent(event: ClientChatEvent) {
+
+
+        val match = COMMAND_REGEX.find(event.message) ?: return
+        val name = match.groups[1]?.value ?: return;
+        val args = match.groups[2]?.value?.split(" ") ?: emptyList();
+
+        when (name) {
+            "mine" -> {
+
+                val start = pos1 ?: return;
+                val end = pos2 ?: return;
+
+                val from = Block2D(start.x, start.z)
+                val to = Block2D(end.x, end.z)
+
+                player.sendChatMessage("mining! $from $to")
+
+                GlobalScope.launch {
+                    sendMine(Mine(Selection2D(from, to)))
+                }
+            }
+            else -> player.sendChatMessage("invalid message ${event.message}")
+        }
+    }
+
+    @SubscribeEvent
+    fun leftClick(event: PlayerInteractEvent.LeftClickBlock) {
+        val tool = event.itemStack.item as? ItemAxe ?: return;
+        pos1 = event.pos
+        player.sendChatMessage("pos1 $pos1")
+    }
+
+    @SubscribeEvent
+    fun rightClick(event: PlayerInteractEvent.RightClickBlock) {
+        event.
+        val tool = event.itemStack.item as? ItemAxe ?: return;
+        pos2 = event.pos
+        player.sendChatMessage("pos2 $pos2")
     }
 }
