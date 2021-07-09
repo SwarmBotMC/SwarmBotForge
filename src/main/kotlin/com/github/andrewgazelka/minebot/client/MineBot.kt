@@ -2,6 +2,7 @@ package com.github.andrewgazelka.minebot.client
 
 import net.minecraft.block.Block
 import net.minecraft.item.Item
+import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.RegistryEvent
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.event.FMLInitializationEvent
@@ -34,7 +35,7 @@ object MineBot {
      */
     @Mod.EventHandler
     fun init(event: FMLInitializationEvent) {
-
+        MinecraftForge.EVENT_BUS.register(EventHandler)
     }
 
     /**
