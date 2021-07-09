@@ -99,22 +99,26 @@ dependencies {
 
     }
 
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.2"
     jarLibs("org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.2") {
 
     }
 
-    jarLibs("io.ktor:ktor-client-serialization") {
-
-    }
-
-    jarLibs("io.ktor:ktor-client-cio") {
-
-    }
-
     implementation "io.ktor:ktor-client-core:$ktor_version"
+    jarLibs("io.ktor:ktor-client-core:$ktor_version") {
+
+    }
+
     implementation "io.ktor:ktor-client-cio:$ktor_version"
-    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.2"
+    jarLibs("io.ktor:ktor-client-cio:$ktor_version") {
+
+    }
+
     implementation "io.ktor:ktor-client-serialization:$ktor_version"
+    jarLibs("io.ktor:ktor-client-serialization:$ktor_version") {
+
+    }
+
 
     // You may put jars on which you depend on in ./libs or you may define them like so..
     // compile "some.group:artifact:version:classifier"
@@ -171,22 +175,25 @@ publishing {
 }
 
 jar {
-    manifest.attributes(
-        'Manifest-Version': 1.0,
-//        'MixinConfigs': 'mixins.kami.json',
-        'TweakClass': 'org.spongepowered.asm.launch.MixinTweaker',
-        'TweakOrder': 0,
-        'FMLCorePluginContainsFMLMod': 'true',
-        'FMLCorePlugin': 'com.github.andrewgazelka.minebot.client.MineBot',
-        'ForceLoadAsMod': 'true',
-//        'Main-Class': 'org.kamiblue.client.installer.Installer'
-    )
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+//    manifest.attributes(
+//        'Manifest-Version': 1.0,
+////        'MixinConfigs': 'mixins.kami.json',
+//        'TweakClass': 'org.spongepowered.asm.launch.MixinTweaker',
+//        'TweakOrder': 0,
+//        'FMLCorePluginContainsFMLMod': 'true',
+//        'FMLCorePlugin': 'com.github.andrewgazelka.minebot.client.MineBot',
+//        'ForceLoadAsMod': 'true',
+////        'Main-Class': 'org.kamiblue.client.installer.Installer'
+//    )
 
     // Copy needed libs to jar
     from {
+
         configurations.jarLibs.collect {
             it.isDirectory() ? it : zipTree(it)
         }
+
     }
 }
 

@@ -7,6 +7,7 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.entity.EntityPlayerSP
 import net.minecraft.item.ItemAxe
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.text.TextComponentString
 import net.minecraftforge.client.event.ClientChatEvent
 import net.minecraftforge.event.entity.player.PlayerInteractEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
@@ -42,22 +43,27 @@ object EventHandler {
                     sendMine(Mine(Selection2D(from, to)))
                 }
             }
-            else -> player.sendChatMessage("invalid message ${event.message}")
+            else -> {
+                player.sendMessage(TextComponentString("invalid command"))
+            }
         }
     }
 
     @SubscribeEvent
     fun leftClick(event: PlayerInteractEvent.LeftClickBlock) {
         val tool = event.itemStack.item as? ItemAxe ?: return;
-        pos1 = event.pos
-        player.sendChatMessage("pos1 $pos1")
+        if (pos1 != event.pos) {
+            pos1 = event.pos
+            player.sendMessage(TextComponentString("pos1 $pos1"))
+        }
     }
 
     @SubscribeEvent
     fun rightClick(event: PlayerInteractEvent.RightClickBlock) {
-        event.
         val tool = event.itemStack.item as? ItemAxe ?: return;
-        pos2 = event.pos
-        player.sendChatMessage("pos2 $pos2")
+        if (pos2 != event.pos) {
+            pos2 = event.pos
+            player.sendMessage(TextComponentString("pos2 $pos2"))
+        }
     }
 }
