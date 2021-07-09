@@ -43,10 +43,10 @@ object EventHandler {
                 val from = Block2D(start.x, start.z)
                 val to = Block2D(end.x, end.z)
 
-                player.sendMessage(TextComponentString("mining! $from $to"))
+                player.sendMessage(TextComponentString("mining!!! $from $to"))
 
                 GlobalScope.launch {
-                    sendMine(Mine(Selection2D(from, to)))
+                    send(Mine(Selection2D(from, to)))
                 }
             }
             "sel" -> {
