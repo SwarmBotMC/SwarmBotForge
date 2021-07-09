@@ -1,5 +1,6 @@
 package com.github.andrewgazelka.minebot.client
 
+import kotlinx.coroutines.runBlocking
 import net.minecraft.block.Block
 import net.minecraft.item.Item
 import net.minecraftforge.common.MinecraftForge
@@ -14,12 +15,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
     modid = MineBot.MOD_ID,
     name = MineBot.MOD_NAME,
     version = MineBot.VERSION,
-    modLanguageAdapter = "net.shadowfacts.forgelin.KotlinAdapter"
 )
-object MineBot {
-    const val MOD_ID = "minecraft-forge-kotlin-template"
-    const val MOD_NAME = "Minecraft Forge Kotlin Template"
-    const val VERSION = "2019.1-1.2.23"
+class MineBot {
 
     /**
      * This is the first initialization event. Register tile entities here.
@@ -36,6 +33,10 @@ object MineBot {
     @Mod.EventHandler
     fun init(event: FMLInitializationEvent) {
         MinecraftForge.EVENT_BUS.register(EventHandler)
+
+        runBlocking {
+            yes()
+        }
     }
 
     /**
@@ -82,4 +83,9 @@ object MineBot {
 
     }
     */
+    companion object {
+        const val MOD_ID = "minecraft-forge-kotlin-template"
+        const val MOD_NAME = "Minecraft Forge Kotlin Template"
+        const val VERSION = "2019.1-1.2.23"
+    }
 }

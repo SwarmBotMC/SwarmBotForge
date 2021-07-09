@@ -8,6 +8,10 @@ buildscript {
         classpath 'net.minecraftforge.gradle:ForgeGradle:5.+'
     }
 }
+plugins {
+    id "org.jetbrains.kotlin.jvm" version "1.5.20"
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.5.20'
+}
 
 apply plugin: 'net.minecraftforge.gradle'
 // Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
@@ -66,6 +70,10 @@ configurations {
     }
 }
 
+repositories {
+    mavenCentral()
+}
+
 dependencies {
     // Specify the version of Minecraft to use, If this is any group other then 'net.minecraft' it is assumed
     // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
@@ -87,7 +95,26 @@ dependencies {
         exclude module: 'annotations'
     }
 
-    jarLibs("io.ktor:ktor-network:$ktor_version")
+    jarLibs("io.ktor:ktor-client-core:$ktor_version") {
+
+    }
+
+    jarLibs("org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.2") {
+
+    }
+
+    jarLibs("io.ktor:ktor-client-serialization") {
+
+    }
+
+    jarLibs("io.ktor:ktor-client-cio") {
+
+    }
+
+    implementation "io.ktor:ktor-client-core:$ktor_version"
+    implementation "io.ktor:ktor-client-cio:$ktor_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.2"
+    implementation "io.ktor:ktor-client-serialization:$ktor_version"
 
     // You may put jars on which you depend on in ./libs or you may define them like so..
     // compile "some.group:artifact:version:classifier"
@@ -113,12 +140,12 @@ dependencies {
 jar {
     manifest {
         attributes([
-            "Specification-Title": "examplemod",
-            "Specification-Vendor": "examplemodsareus",
-            "Specification-Version": "1", // We are version 1 of ourselves
-            "Implementation-Title": project.name,
-            "Implementation-Version": "${version}",
-            "Implementation-Vendor" :"examplemodsareus",
+            "Specification-Title"     : "examplemod",
+            "Specification-Vendor"    : "examplemodsareus",
+            "Specification-Version"   : "1", // We are version 1 of ourselves
+            "Implementation-Title"    : project.name,
+            "Implementation-Version"  : "${version}",
+            "Implementation-Vendor"   : "examplemodsareus",
             "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
@@ -150,7 +177,7 @@ jar {
         'TweakClass': 'org.spongepowered.asm.launch.MixinTweaker',
         'TweakOrder': 0,
         'FMLCorePluginContainsFMLMod': 'true',
-        'FMLCorePlugin': 'com.github.andrewgazelka.minebot.client.MineBotKt',
+        'FMLCorePlugin': 'com.github.andrewgazelka.minebot.client.MineBot',
         'ForceLoadAsMod': 'true',
 //        'Main-Class': 'org.kamiblue.client.installer.Installer'
     )
@@ -162,3 +189,8 @@ jar {
         }
     }
 }
+
+//sourceSets {
+//    main.kotlin.srcDirs += 'src/main/kotlin'
+//    main.java.srcDirs += 'src/main/java'
+//}
