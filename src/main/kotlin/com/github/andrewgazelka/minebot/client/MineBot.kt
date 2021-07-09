@@ -1,4 +1,4 @@
-package io.github.proudust.minecraftforgekotlintemplate
+package com.github.andrewgazelka.minebot.client
 
 import net.minecraft.block.Block
 import net.minecraft.item.Item
@@ -10,12 +10,12 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
 @Mod(
-    modid = MinecraftForgeKotlinTemplate.MOD_ID,
-    name = MinecraftForgeKotlinTemplate.MOD_NAME,
-    version = MinecraftForgeKotlinTemplate.VERSION,
+    modid = MineBot.MOD_ID,
+    name = MineBot.MOD_NAME,
+    version = MineBot.VERSION,
     modLanguageAdapter = "net.shadowfacts.forgelin.KotlinAdapter"
 )
-object MinecraftForgeKotlinTemplate {
+object MineBot {
     const val MOD_ID = "minecraft-forge-kotlin-template"
     const val MOD_NAME = "Minecraft Forge Kotlin Template"
     const val VERSION = "2019.1-1.2.23"
