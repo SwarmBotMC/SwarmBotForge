@@ -1,4 +1,4 @@
-package com.github.andrewgazelka.minebot.client
+package com.github.andrewgazelka.swarmbot.client
 
 
 import io.ktor.client.*
@@ -36,8 +36,15 @@ data class Block2D(val x: Int, val z: Int)
 data class Selection2D(val from: Block2D, val to: Block2D)
 
 @Serializable
+data class BlockLocation(val x: Int, val y: Int, val z: Int)
+
+@Serializable
 @SerialName("mine")
 data class Mine(val sel: Selection2D) : Message()
+
+@Serializable
+@SerialName("goto")
+data class GoTo(val location: BlockLocation): Message()
 
 @Serializable
 sealed class Message

@@ -1,4 +1,4 @@
-package com.github.andrewgazelka.minebot.client
+package com.github.andrewgazelka.swarmbot.client
 
 import kotlinx.coroutines.runBlocking
 import net.minecraft.block.Block

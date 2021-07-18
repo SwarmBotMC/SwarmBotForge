@@ -1,4 +1,4 @@
-package com.github.andrewgazelka.minebot.client
+package com.github.andrewgazelka.swarmbot.client
 
 
 import kotlinx.coroutines.GlobalScope
@@ -48,6 +48,15 @@ object EventHandler {
                 GlobalScope.launch {
                     send(Mine(Selection2D(from, to)))
                 }
+            }
+            "goto" -> {
+                val dest = pos1 ?: return;
+                player.sendMessage(TextComponentString("bot going to dest"))
+
+                GlobalScope.launch {
+                    send(GoTo(BlockLocation(dest.x, dest.y, dest.z)))
+                }
+
             }
             "sel" -> {
                 player.sendMessage(TextComponentString("toggled sel"))
