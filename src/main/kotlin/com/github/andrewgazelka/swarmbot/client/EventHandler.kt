@@ -5,7 +5,6 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import net.minecraft.client.Minecraft
 import net.minecraft.client.entity.EntityPlayerSP
-import net.minecraft.item.ItemAxe
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.text.TextComponentString
 import net.minecraftforge.client.event.ClientChatEvent
@@ -57,6 +56,13 @@ object EventHandler {
                     send(GoTo(BlockLocation(dest.x, dest.y, dest.z)))
                 }
 
+            }
+            "attack" -> {
+                val playerName = args.firstOrNull() ?: return;
+
+                GlobalScope.launch {
+                    send(Attack(playerName))
+                }
             }
             "sel" -> {
                 player.sendMessage(TextComponentString("toggled sel"))

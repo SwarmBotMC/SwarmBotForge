@@ -47,6 +47,10 @@ data class Mine(val sel: Selection2D) : Message()
 data class GoTo(val location: BlockLocation): Message()
 
 @Serializable
+@SerialName("attack")
+data class Attack(val name: String): Message()
+
+@Serializable
 sealed class Message
 
 private val ws by lazy {
